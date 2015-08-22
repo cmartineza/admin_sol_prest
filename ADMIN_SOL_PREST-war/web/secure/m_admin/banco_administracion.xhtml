@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../templates/MainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="content">
+        <p:growl id="growl" autoUpdate="true" showDetail="true" life="5000"/>
+        <h:form id="formCreate">
+            <p:panel id="panelCreate" header="Crear" toggleable="true">
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="txtCrearNombre" value="Nombre Banco:"/>
+                    <p:inputText id="txtCrearNombre" required="true" label="Nombre Banco" requiredMessage="Por favor ingrese el nombre del banco" value="#{crearBancoAction.nombreBanco}">
+                        <f:validator validatorId="validator.names"/>
+                    </p:inputText>
+                    <p:commandButton value="Crear Banco" actionListener="#{crearBancoAction.crearBanco}" update=":formTable:bancoTable"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        <h:form id="formTable">
+            <p:dataTable id="bancoTable" paginator="true" value="#{listarBancoAction.listBanco}" var="banco" widgetVar="bancoTable"
+                         emptyMessage="No se encontro ningun banco" 
+                         filteredValue="#{bancoJSFB.listFiltro}">
+
+                <p:column filterBy="#{banco.bancoId}" headerText="Id. Banco" filterMatchMode="exact">
+                    <h:outputText value="#{banco.bancoId}" />
+                </p:column>
+
+                <p:column filterBy="#{banco.nombreBanco}" headerText="Nombre Banco" filterMatchMode="contains">
+                    <h:outputText value="#{banco.nombreBanco}" />
+                </p:column>
+
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":formEdit:dlgModificarBanco" oncomplete="PF('dlgModificarBanco').show()" icon="ui-icon-pencil" title="Modificar">
+                        <f:setPropertyActionListener value="#{banco}" target="#{listarBancoAction.bancoJSFB.bancoTarget}" />
+                    </p:commandButton>
+                </p:column>
+                 <p:column style="width:32px;text-align: center">
+                     <p:commandButton update="@form" icon="ui-icon-trash" title="Eliminar" action="#{eliminarBancoAction.eliminarBanco(banco)}">
+                         <f:setPropertyActionListener value="#{banco}" target="#{eliminarBancoAction.bancoEliminar}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:form id="formEdit">
+            <p:dialog header="Modificar" id="dlgModificarBanco" closable="true" showEffect="explode"  hideEffect="explode"
+                      widgetVar="dlgModificarBanco" modal="true" >
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="txtModificarNombre" value="Nombre Banco:"/>
+                    <p:inputText id="txtModificarNombre" required="true" label="Nombre Banco" requiredMessage="Por favor ingrese el nombre del banco" 
+                                 value="#{modificarBancoAction.bancoJSFB.bancoTarget.nombreBanco}">
+                        <f:validator validatorId="validator.names"/>
+                    </p:inputText>
+                    <h:panelGroup/>
+                    <p:commandButton value="Modificar" onsuccess="PF('dlgModificarBanco').hide()" 
+                                     actionListener="#{modificarBancoAction.modificarBanco}" update=":formTable:bancoTable"/>
+                </h:panelGrid>
+            </p:dialog>   
+        </h:form>
+    </ui:define>
+
+</ui:composition>

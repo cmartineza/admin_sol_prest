@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/MainTemplate.xhtml">
+
+            <ui:define name="title">
+                ..:: Crear Referencia ::..
+            </ui:define>
+
+            <ui:define name="content">
+                <p:growl autoUpdate="true" life="5000" showDetail="true"/>
+                <h:form id="formCreate">
+                    <p:remoteCommand name="listRef"  actionListener="#{buscarReferenciaAction.buscaReferencias}" />
+                    <p:panel header="Crear Referncia">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="txtNombreRef" value="Nombres:"/>
+                            <p:inputText id="txtNombreRef" label="Nombres" value="#{crearReferenciaAction.referenciasClientes.nombres}" required="true" 
+                                         requiredMessage="Ingrese los nombres de la referencia.">
+                                <f:validator validatorId="validator.names" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtApellidoRef" value="Apellidos:"/>
+                            <p:inputText id="txtApellidoRef" label="Apellidos" value="#{crearReferenciaAction.referenciasClientes.apellidos}" required="true" 
+                                         requiredMessage="Ingrese los apellidos de la referencia">
+                                <f:validator validatorId="validator.names" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtTelefonoRef" value="Teléfono:"/>
+                            <p:inputText id="txtTelefonoRef" label="Teléfono" value="#{crearReferenciaAction.referenciasClientes.telefonoContacto}" required="true" 
+                                         requiredMessage="Ingrese el teléfono de la referencia">
+                                <f:validator validatorId="validator.Digitos" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtDireccionRef" value="Dirección:"/>
+                            <p:inputText id="txtDireccionRef" label="Dirección" value="#{crearReferenciaAction.referenciasClientes.direccion}" required="true" 
+                                         requiredMessage="Ingrese la dirección de la referencia">
+                            </p:inputText>
+
+                            <p:outputLabel for="txtBarrioRef" value="Barrio:"/>
+                            <p:inputText id="txtBarrioRef" label="Barrio" value="#{crearReferenciaAction.referenciasClientes.barrio}" required="true" 
+                                         requiredMessage="Ingrese el barrio de la referencia">
+                                <f:validator validatorId="validator.names" />
+                            </p:inputText>
+
+                            <p:outputLabel for="selectTipoRef" value="Tipo Referencia:" />
+                            <p:selectOneMenu id="selectTipoRef"
+                                             value="#{crearReferenciaAction.idTipoReferencia}"
+                                             required="true"
+                                             requiredMessage="Seleccione un tipo de referencia">
+                                <f:selectItem itemLabel="Seleccione una opción.." itemValue="#{null}"/>
+                                <f:selectItems value="#{referenciaJSFB.listTipoReferencia}" var="tipoRef" 
+                                               itemLabel="#{tipoRef.descTipoReferencia}" 
+                                               itemValue="#{tipoRef.tipoReferenciaId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="selectParentescoRef" value="Parentesco:" />
+                            <p:selectOneMenu id="selectParentescoRef"
+                                             value="#{crearReferenciaAction.idTipoParentesco}"
+                                             required="true"
+                                             requiredMessage="Seleccione un parentesco">
+                                <f:selectItem itemLabel="Seleccione una opción.." itemValue="#{null}"/>
+                                <f:selectItems value="#{referenciaJSFB.listParentesco}" var="parRef" 
+                                               itemLabel="#{parRef.descParentesco}" 
+                                               itemValue="#{parRef.parentescoId}"/>
+                            </p:selectOneMenu>
+                            <h:panelGroup/>
+                            <p:commandButton value="Crear Referencia" onclick="listRef()" actionListener="#{crearReferenciaAction.crearReferencia}" update="@form"
+                                             />
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:commandButton action="volver_prestamo" value="Volver" immediate="true"/>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

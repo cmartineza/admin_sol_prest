@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="../templates/MainTemplate.xhtml">
+
+            <ui:define name="title">
+                .::Bienvenidos::.
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="formAlerta">
+                    <p:panel header="Alertas">
+                        <p:dataTable value="#{listarAlertaAction.listAlerta}" var="alerta" 
+                                     id="tblAlerta" emptyMessage="No hay alertas">
+                            <p:column headerText="Id Prestamo:">
+                                <h:outputText value="#{alerta.idAlerta}"/>
+                            </p:column>
+                            <p:column headerText="No. Cuenta:">
+                                <h:outputText value="#{alerta.proyeccion.noCuenta}"/>
+                            </p:column>
+                            <p:column headerText="Pago Minimo:">
+                                <h:outputText value="#{alerta.proyeccion.pagoMinimo}"/>
+                            </p:column>
+                            <p:column headerText="Fecha de Pago">
+                                <h:outputText value="#{alerta.fechaCreacion}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton update="@form" icon="fa-remove" title="Eliminar Alerta">
+                                    <f:setPropertyActionListener value="#{alerta}" target="#{modificarAlertaAction.alertaTarget}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

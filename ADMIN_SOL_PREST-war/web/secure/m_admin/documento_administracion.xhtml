@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../templates/MainTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        ..:: Administracion Tipo Documentios ::..
+    </ui:define>
+
+    <ui:define name="content">
+        <p:growl id="growl" autoUpdate="true" showDetail="true" life="5000"/>
+        <h:form id="formCreate">
+            <p:panel id="panelCreate" header="Crear Documento" toggleable="true">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="txtCrearNombreDoc" value="Nombre Documento:"/>
+                    <p:inputText id="txtCrearNombreDoc" label="Nombre Documento" required="true"
+                                 requiredMessage="Por favor ingrese el nombre del documento."
+                                 value="#{crearTipoDocumentoAction.nombreDocumento}">
+                        <f:validator validatorId="validator.names"/>
+                    </p:inputText>
+                    <p:commandButton value="Crear Documento" id="btnCrearDoc" actionListener="#{crearTipoDocumentoAction.crearDocumento}" update=" :formTable:documentoTabla" />
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        <h:form id="formTable">
+            <p:dataTable value="#{listarTipoDocumentoAction.listTipoDocumento}" 
+                         paginator="true" id="documentoTabla" widgetVar="documentoTabla" var="documento" filteredValue="#{tipoDocumentoJSFB.listFiltro}" 
+                         emptyMessage="No se encontraron documentos">
+                
+                <p:column filterBy="#{documento.tipoDocumentoId}" headerText="Id. Documento" filterMatchMode="exact">
+                    <h:outputText value="#{documento.tipoDocumentoId}" />
+                </p:column>
+                
+                <p:column filterBy="#{documento.descDocumento}" headerText="Documento" filterMatchMode="contains">
+                    <h:outputText value="#{documento.descDocumento}" />
+                </p:column>
+                
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton oncomplete="PF('dlgModificarDocumento').show()" icon="ui-icon-pencil" title="Modificar" update=":formEdit:dlgModificarDocumento" >
+                        <f:setPropertyActionListener value="#{documento}" target="#{modificarTipoDocumentoAction.tipoDocumentoJSFB.documentoTarget}" />
+                    </p:commandButton>
+                </p:column>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update="@form" ajax="false" icon="ui-icon-trash" title="Eliminar" action="#{eliminarTipoDocumentoAction.eliminar(documento)}">
+                        <f:setPropertyActionListener value="#{documento}" target="#{eliminarTipoDocumentoAction.tipoDocumento}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:form id="formEdit">
+            <p:dialog header="Modificar" id="dlgModificarDocumento" closable="true" showEffect="explode" hideEffect="explode"
+                      widgetVar="dlgModificarDocumento" modal="true" >
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="txtNombreDocumento" value="Documento"/>
+                    <p:inputText id="txtNombreDocumento"
+                                 value="#{modificarTipoDocumentoAction.tipoDocumentoJSFB.documentoTarget.descDocumento}"
+                                 required="true"
+                                 requiredMessage="Por favor ingrese el nombre del documento."
+                                 label="Documento">
+                        <f:validator validatorId="validator.names"/>
+                    </p:inputText>
+                    <p:commandButton value="Modificar Documento" 
+                                     actionListener="#{modificarTipoDocumentoAction.modificar}" 
+                                      oncomplete="PF('dlgModificarDocumento').hide()" update=":formTable:documentoTabla"/>
+                </h:panelGrid>
+            </p:dialog>   
+        </h:form>
+    </ui:define>
+
+</ui:composition>

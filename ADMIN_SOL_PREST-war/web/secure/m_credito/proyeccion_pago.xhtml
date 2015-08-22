@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/MainTemplate.xhtml">
+
+            <ui:define name="title">
+                ..::: Proyeccion Pagos ::..
+            </ui:define>
+
+            <ui:define name="content">
+                <p:growl autoUpdate="true" life="5000" sticky="false"
+                         showDetail="true" showSummary="true"/>
+                <h:form id="frmCreaProyeccion">
+                    <p:panel header="Proyección de Pago" rendered="#{consultarProyeccionPago.prestamoJSFB.mostrarCrearProyeccion()}">
+                        <f:facet  name="actions">
+                            <p:commandButton value="Volver" icon="ui-icon-arrowreturn-1-w" action="consultar_prestamo"/>
+                        </f:facet>
+                        
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Fecha de Pago" for="txtFechaPago" />
+                            <p:calendar value="#{crearProyeccionAction.proyeccionPago.fechaPago}" id="txtFechaPago" navigator="true" yearRange="c-100:c+100" pattern="dd/MM/yyyy" mask="true" label="Fecha Pago" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:calendar>
+
+                            <p:outputLabel value="No Cuenta" for="txtNCuenta" />
+                            <p:inputText value="#{crearProyeccionAction.proyeccionPago.noCuenta}" id="txtNCuenta">
+                                <f:validator validatorId="validator.Digitos"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="Pago Minimo" for="txtPagoMinimo" />
+                            <p:inputText value="#{crearProyeccionAction.proyeccionPago.pagoMinimo}" id="txtPagoMinimo">
+                                <f:validator validatorId="validator.Digitos"/>
+                            </p:inputText>
+                            <h:panelGroup/>
+                            <p:commandButton value="Guardar" actionListener="#{crearProyeccionAction.crearProyeccion}"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+                <h:form id="frmConsultaProyeccion">
+                    <p:panel header="Proyección Pago" rendered="#{!consultarProyeccionPago.prestamoJSFB.mostrarCrearProyeccion()}">
+                        <f:facet  name="actions">
+                            <p:commandButton value="Volver" style="float: right;" icon="ui-icon-arrowreturn-1-w" action="consultar_prestamo"/>
+                        </f:facet>
+                        <ui:repeat value="#{consultarProyeccionPago.listProyeccion}"
+                                   var="proyeccion">
+                            <h:panelGrid columns="6" style="width: 100%">
+                                <p:outputLabel value="No. Cuenta:"/>
+                                <p:outputLabel value="#{proyeccion.noCuenta}"/>
+
+                                <p:outputLabel value="Fecha Pago:"/>
+                                <p:outputLabel value="#{proyeccion.fechaPago}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+
+                                <p:outputLabel value="Pago Minimo:"/>
+                                <p:outputLabel value="#{proyeccion.pagoMinimo}"/>
+                            </h:panelGrid>
+                        </ui:repeat>
+
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
+
+    <body>
+
+        <ui:composition template="./../../templates/MainTemplate.xhtml">
+
+            <ui:define name="title">
+                .:: Documentos Prestamos ::.
+            </ui:define>
+
+            <ui:define name="content">
+                <p:growl showDetail="true" life="5000" autoUpdate="true"/>
+                <h:form id='formConsultaCliente'>
+                    <p:remoteCommand name="listRef"  actionListener="#{buscarReferenciaAction.buscaReferencias}" />
+                    <p:panel id="panelConsultaCliente" header="Consulta Cliente">
+                        <f:facet name="actions">
+                            <p:commandButton action="#{consultarClienteAction.limipiar}" value="Limpiar" styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" icon="ui-icon-arrowrefresh-1-e"/>
+                        </f:facet>
+                        <p:panelGrid columns="5">
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" for="selectTipoId" value="Tipo Identificación" />
+                            <p:selectOneMenu id="selectTipoId" value="#{consultarClienteAction.idTipoId}" binding="#{tipoDocumentoRef}"
+                                             required="true"
+                                             requiredMessage="Por favor seleccione un tipo de identificación"
+                                             label="Tipo Identificación">
+                                <f:selectItem itemLabel="Seleccione un opción.." itemValue="#{null}"/>
+                                <f:selectItems value="#{clienteJSFB.listTipoIdentificacion}" var="tipoId"
+                                               itemLabel="#{tipoId.descCorta}" itemValue="#{tipoId.tipoDocumentoId}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" for="txtDocConsulta" value="Número Identificación:" />
+                            <p:inputText id="txtDocConsulta"  value="#{consultarClienteAction.identificacion}"
+                                         label="Número Identificación"
+                                         required="true" 
+                                         requiredMessage="Por favor ingrese el número de identificación">
+                                <f:attribute name="tpoDocId" value="#{tipoDocumentoRef}"/>
+                                <f:validator  validatorId="validator.numeroIdentificacion"/>
+                            </p:inputText>
+                            <p:commandButton value="Buscar" actionListener="#{consultarClienteAction.consultarCliente}" id="btnConsultaCliente" 
+                                             update=":formTableReferencia,:formConsultaCliente, :frmTblDoc, :frmTblPrestamos" 
+                                             oncomplete="listRef()"/>
+                        </p:panelGrid>
+                    </p:panel>
+
+                    <p:panel header="Datos Cliente" rendered="#{not empty prestamoJSFB.clienteConsulta}">
+                        <p:panelGrid columns="4" style="width: 100%;">
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Tipo Identificación:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.tipoIdentificacion1.descCorta}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Número Identificación:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.clientePK.numeroDocumento}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Nombres:"/>
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.nombres}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Apellidos:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.apellidos}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Fecha Nacimiento:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.fechaNacimiento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Empresa:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.empresa}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Estado Civil:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.estadoCivil.descripcionEstado}" />
+                        </p:panelGrid>
+                    </p:panel>
+                    <h:panelGroup><br/></h:panelGroup>
+                    <p:panel header="Datos de Contacto" rendered="#{not empty prestamoJSFB.clienteConsulta}">
+                        <p:panelGrid id="panelContactoCliente" style="width: 100%;" columns="4">
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Número Teléfono:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.telefono}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Número Celular:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.celular}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Email:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.email}" />
+                        </p:panelGrid>
+                    </p:panel>
+                    <h:panelGroup><br/></h:panelGroup>
+                    <p:panel header="Datos Generales" rendered="#{not empty prestamoJSFB.clienteConsulta}">
+                        <p:panelGrid columns="4" style="width: 100%;" >
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="EPS:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.eps.descEps}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Tipo Vivienda:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.tipoVivienda.descripcionVivienda}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Tenencia Vivienda:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.tenenciaVivienda.descripcionTenencia}" />
+
+                            <p:outputLabel style=" float: right !important;font-weight: bold !important;" value="Dirección:" />
+                            <p:outputLabel value="#{prestamoJSFB.clienteConsulta.direccionResidencia}" />
+                        </p:panelGrid>
+                    </p:panel>
+                </h:form>
+
+
+                <h:form id="formTableReferencia">
+                    <h:panelGroup><br/></h:panelGroup>
+                    <p:dataTable value="#{buscarReferenciaAction.referenciaJSFB.listReferencias}" rendered="#{not empty prestamoJSFB.clienteConsulta}" var="referencias"
+                                 paginator="true"
+                                 filteredValue="#{referenciaJSFB.listFilterReferncias}"
+                                 emptyMessage="No se encontraron Referencias">
+                        <f:facet name="header">
+                            Referencias Clientes
+                        </f:facet>
+                        <p:column headerText="Apellidos" filterBy="#{referencias.apellidos}" filterMatchMode="contains">
+                            <h:outputText value="#{referencias.apellidos}"/>
+                        </p:column>
+                        <p:column headerText="Nombre" filterBy="#{referencias.nombres}" filterMatchMode="contains">
+                            <h:outputText value="#{referencias.nombres}"/>
+                        </p:column>
+                        <p:column headerText="Tipo Referencia" filterBy="#{referencias.tipoReferencia.descTipoReferencia}" filterMatchMode="contains">
+                            <h:outputText value="#{referencias.tipoReferencia.descTipoReferencia}"/>
+                        </p:column>
+                        <p:column headerText="Telefono Contacto">
+                            <h:outputText value="#{referencias.telefonoContacto}"/>
+                        </p:column>
+                        <p:column headerText="Direccion">
+                            <h:outputText value="#{referencias.direccion}"/>
+                        </p:column>
+                        <p:column headerText="Parenetesco">
+                            <h:outputText value="#{referencias.parentesco.descParentesco}"/>
+                        </p:column>
+                        <p:column  style="width:32px;text-align: center">
+                            <p:commandButton action="modificarRef" icon="ui-icon-pencil" title="Modificar">
+                                <f:setPropertyActionListener value="#{referencias}" target="#{modificarReferenciaAction.referenciaJSFB.refernciaTarget}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column  style="width:32px;text-align: center">
+                            <p:commandButton action="#{eliminarRefernciaAction.eliminar(referencias)}" icon="ui-icon-trash" title="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Crear Referencia" action="crearRef"/>
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                <h:panelGroup><br/></h:panelGroup>
+                <h:form id="frmTblDoc">
+                    <p:dataTable rendered="#{not empty prestamoJSFB.clienteConsulta}" value="#{listarArchivoAction.listDocumento}" var="doc" 
+                                 paginator="true" id="tblDoc" widgetVar="tblDoc"
+                                 filteredValue="#{archivoJSFB.listFilterDoc}">
+                        <f:facet name="header">
+                            Documentos Cliente
+                        </f:facet>
+                        <p:column filterBy="#{doc.nombreDocumento}" headerText="Nombre Documento" filterMatchMode="contains">
+                            <h:outputLabel value="#{doc.nombreDocumento}"/>
+                        </p:column>
+                        <p:column filterBy="#{doc.tipoDocumento.descDocumento}" headerText="Tipo Documento" filterMatchMode="contains">
+                            <h:outputLabel value="#{doc.tipoDocumento.descDocumento}"/>
+                        </p:column>
+                        <p:column filterBy="#{doc.fechaCreacion}" headerText="Fecha Creación" filterMatchMode="contains">
+                            <h:outputLabel value="#{doc.fechaCreacion}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputLabel>
+                        </p:column>
+                        <p:column style="width:32px;text-align: center;">
+                            <p:commandButton action="#{eliminarArchivoAction.eliminar(doc)}" ajax="false" icon="ui-icon-trash" title="Eliminar" />
+                        </p:column>
+                        <p:column style="width:32px;text-align: center;">
+                            <p:commandButton icon=" ui-icon-arrowthickstop-1-s" title="Descargar" ajax="false">
+                                <p:fileDownload value="#{descarArchivoAction.getArchivo(doc)}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Crear archivo" action="crear_archivo"/>
+                        </f:facet>
+                    </p:dataTable>
+
+                </h:form>
+                <h:panelGroup><br/></h:panelGroup>
+                <h:form id="frmTblPrestamos">
+                    <p:dataTable value="#{listarPrestamoAction.listPrestamo}" rendered="#{not empty prestamoJSFB.clienteConsulta}" var="prestamo" 
+                                 paginator="true" filteredValue="#{prestamoJSFB.listPrestamoFilter}"
+                                 >
+                        <f:facet name="header">
+                            Prestamos Cliente
+                        </f:facet>
+                        <p:column headerText="Prestamo Id." filterBy="#{prestamo.prestamoId}" filterMatchMode="contains">
+                            <h:outputText value="#{prestamo.prestamoId}"/>
+                        </p:column>
+
+                        <p:column headerText="Banco" filterBy="#{prestamo.banco.nombreBanco}" filterMatchMode="contains">
+                            <h:outputText value="#{prestamo.banco.nombreBanco}"/>
+                        </p:column>
+
+                        <p:column headerText="Valor Solicitado" filterBy="#{prestamo.valorSolicitado}" filterMatchMode="contains">
+                            <h:outputText value="#{prestamo.valorSolicitado}"/>
+                        </p:column>
+                        <p:column style="width:32px;text-align: center;">
+                            <p:commandButton icon="ui-icon-search" title="Ver detalle" action="consultar_prestamo">
+                                <f:setPropertyActionListener value="#{prestamo}" target="#{prestamoJSFB.prestamo}" />
+                            </p:commandButton>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Crear Prestamo" action="crear_prestamo"/>
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

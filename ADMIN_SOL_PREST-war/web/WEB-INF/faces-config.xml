@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>documento_admin</from-outcome>
+            <to-view-id>/secure/m_admin/documento_administracion.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>banco_admin</from-outcome>
+            <to-view-id>/secure/m_admin/banco_administracion.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>clientes_admin</from-outcome>
+            <to-view-id>/secure/m_admin/cliente_admin.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>volver_prestamo</from-outcome>
+            <to-view-id>/secure/m_credito/ingreso_prestamo.xhtml</to-view-id>
+            <redirect>tue</redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>crearRef</from-outcome>
+            <to-view-id>/secure/m_admin/crear_referencia.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>modificarRef</from-outcome>
+            <to-view-id>/secure/m_admin/modificar_referencia.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>crear_archivo</from-outcome>
+            <to-view-id>/secure/m_credito/archivo_cliente.xhtml</to-view-id>
+            <redirect>false</redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>crear_prestamo</from-outcome>
+            <to-view-id>/secure/m_credito/crear_prestamo.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>consultar_prestamo</from-outcome>
+            <to-view-id>/secure/m_credito/consulta_prestamo.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>proyeccion_pago</from-outcome>
+            <to-view-id>/secure/m_credito/proyeccion_pago.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/secure/index.xhtml</to-view-id>
+            <redirect>true</redirect>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>salir</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect>true</redirect>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>reportes</from-outcome>
+            <to-view-id>/secure/reportes/total_aprobado.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <lifecycle>
+        <phase-listener>
+            co.com.adminso.core.AutenticacionListener
+        </phase-listener>
+    </lifecycle>  
+</faces-config>

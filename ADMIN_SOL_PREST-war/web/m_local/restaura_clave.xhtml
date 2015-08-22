@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>..:: Restaura Contrasena ::..</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl autoUpdate="true" showDetail="true" sticky="false" life="5000" />
+            <p:outputLabel rendered="#{!restauraContrasenaJSFB.muestraValores}" value="URL INVALIDA!!"/>
+            <p:panel rendered="#{restauraContrasenaJSFB.muestraValores}" header="Restaura Contraseña">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="psw1" value="Contraseña:"/>
+                    <p:password id="psw1" match="psw2" label="Contraseña"
+                                required="true" requiredMessage="Ingrese Contraseña"
+                                feedback="true" value="#{restauraContrasenaJSFB.clave}">
+                        <f:validator validatorId="validator.names"/>
+                    </p:password>
+
+                    <p:outputLabel for="psw2" value="Confirmar Contraseña"/>
+                    <p:password id="psw2" label="Confirmar Contraseña" value="#{restauraContrasenaJSFB.clave}"
+                               />
+                    <h:panelGroup/>
+                    <p:commandButton value="Guardar" update="@this" disabled="#{restauraContrasenaJSFB.btnActivar}" 
+                                     actionListener="#{restauraContrasenaJSFB.cambiarClave}"/>
+                </h:panelGrid>
+                <p:link value="Ir al inicio" href="/faces/login.xhtml"  />
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

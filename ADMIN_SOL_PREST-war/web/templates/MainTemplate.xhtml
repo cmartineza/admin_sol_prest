@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title><ui:insert name="title">Inicio</ui:insert></title>
+        <style>
+            /*.ui-widget-header{
+                border: 1px solid #AED0EA;
+             //   background: #DEEDF7 url("/ADMIN_SOL_PREST-war/faces/javax.faces.resource/images/ui-bg_highlight-soft_100_deedf7_1x100.png?ln=primefaces-cupertino") repeat-x scroll 50% 50%;
+              //  color: #222;
+                font-weight: bold;
+                height: 23px;
+            };*/
+
+            .ui-widget-header {
+                border: 1px solid #404040;
+                background: #242122 url("/ADMIN_SOL_PREST-war/faces/javax.faces.resource/images/ui-bg_highlight-soft_15_242122_1x100.png?ln=primefaces-rocket") repeat-x scroll 50% 50%;
+                color: #F4F4F9;
+                font-weight: bold;
+                max-height: 30px;
+            }
+
+            .ui-picklist .ui-picklist-list {
+                list-style-type: none;
+                margin: 0px;
+                padding: 0px;
+                overflow: auto;
+                height: 200px;
+                width: auto;
+            }
+
+            .ui-picklist .ui-button {
+                display: block;
+                margin-bottom: 0.3em;
+                margin: auto;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+
+
+        <div id="top" class="top" style="text-align: right;">
+            <h:form>
+                <p:commandButton value="Cerrar Sesion" action="#{ingresoJSFB.cerrarSesion}" icon="ui-icon-locked"/>
+            </h:form>
+        </div>
+        <div>
+            <div id="left">
+                <h:form>
+                    <p:menu toggleable="true">
+                        <p:menuitem value="Home" action="home" icon="ui-icon-home"
+                                    styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"/>
+                        <p:submenu label="Administración">
+                            <p:menuitem value="Tipo Documentos" action="documento_admin" icon="ui-icon-carat-1-e" />
+                            <p:menuitem value="Bancos" action="banco_admin"  icon="ui-icon-carat-1-e"/>
+                            <p:menuitem value="Clientes" action="clientes_admin" icon="ui-icon-carat-1-e"/>
+                        </p:submenu>
+                        <p:submenu label="Prestamo">
+                            <p:menuitem value="Prestamo" action="volver_prestamo" icon="ui-icon-carat-1-e"/>
+                        </p:submenu>
+                        <p:submenu label="Reportes">
+                            <p:menuitem value="Prestamo Aprobados" action="reportes" icon="ui-icon-document"/>
+                        </p:submenu>
+                    </p:menu>
+                </h:form>
+            </div>
+            <div id="content" class="left_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </div>
+    </h:body>
+
+</html>

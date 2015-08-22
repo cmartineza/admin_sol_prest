@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../templates/MainTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        ..:: Crear Prestamo ::..
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="formDetallePrestamo">
+            <p:panel id="panelDetalle" header="Crear Prestamo">
+                <p:panel header="Informacion Financiera">
+                    <h:panelGrid columns="6" style="width: 80%;">
+
+                        <p:outputLabel for="selectBancoPrestamo" value="Banco:"/>
+                        <p:selectOneMenu id="selectBancoPrestamo" required="true" requiredMessage="Seleccione un banco"
+                                         label="Banco" value="#{crearPrestamoAction.idBanco}">
+                            <f:selectItem itemLabel="Seleccione opcion.." itemValue="#{null}"/>
+                            <f:selectItems value="#{listarBancoAction.listBanco}" var="banco"
+                                           itemLabel="#{banco.nombreBanco}"
+                                           itemValue="#{banco.bancoId}"/>
+
+                        </p:selectOneMenu>                   
+
+                        <p:outputLabel for="txtValorPrestamo" value="Valor Solicitado:"/>
+                        <p:inputText id="txtValorPrestamo" label="Valor" value="#{crearPrestamoAction.valorSolicitado}"
+                                     required="true" requiredMessage="Digite un valor">
+                            <f:validator validatorId="validator.Digitos"/>
+                        </p:inputText>
+                        <p:outputLabel for="txtPrPago" value="Proyección de Pago:"/>
+                        <p:selectOneRadio id="txtPrPago" value="#{crearPrestamoAction.bndProyeccionPago}">
+                            <f:selectItem itemLabel="Si" itemValue="S" />
+                            <f:selectItem itemLabel="No" itemValue="N" />
+                        </p:selectOneRadio>
+
+                        <p:outputLabel for="txtAlerta" value="Alerta:"/>
+                        <p:selectOneRadio id="txtAlerta" value="#{crearPrestamoAction.bndAlerta}">
+                            <f:selectItem itemLabel="Si" itemValue="S" />
+                            <f:selectItem itemLabel="No" itemValue="N" />
+                        </p:selectOneRadio>
+                        <p:outputLabel for="txtAlerta" value="Proyección de Pago:"/>
+                    </h:panelGrid>
+                </p:panel>
+                <h:panelGroup><br/></h:panelGroup>
+                <p:panel header="Referencias Cliente">
+                    <p:pickList style="width: 100%;" id="lRefClient" value="#{crearPrestamoAction.referenciasClientes}" var="referencia" effect="bounce"
+                                itemValue="#{referencia.referenciaId.toString()}" itemLabel="#{referencia.nombres}" showSourceControls="false" showTargetControls="false" showCheckbox="true"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
+                                >
+
+                        <f:facet name="sourceCaption">Referencias Cliente</f:facet>
+                        <f:facet name="targetCaption">Referencias Prestamo</f:facet>
+
+                        <p:column >
+                            <h:outputText value="#{referencia.nombres}" />
+                        </p:column>
+
+                        <p:column >
+                            <h:outputText value="#{referencia.apellidos}" /> 
+                        </p:column>
+                    </p:pickList>
+                </p:panel>
+                <h:panelGroup><br/></h:panelGroup>
+                <p:panel header="Documentos Cliente">
+                    <p:pickList style="width: 100%;" id="lDocumentoUsuario" value="#{crearPrestamoAction.documentosUsuario}" var="docUsuario" effect="bounce"
+                                itemValue="#{docUsuario.documentoId.toString()}" itemLabel="#{docUsuario.nombreDocumento}" showSourceControls="false" showTargetControls="false" showCheckbox="true"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >
+
+                        <f:facet name="sourceCaption">Documentos Cliente</f:facet>
+                        <f:facet name="targetCaption">Documentos Prestamo</f:facet>
+
+                        <p:column >
+                            <h:outputText value="#{docUsuario.tipoDocumento.descDocumento}" />
+                        </p:column>
+
+                        <p:column >
+                            <h:outputText value=" - #{docUsuario.nombreDocumento}" />
+                        </p:column>
+                    </p:pickList>
+                </p:panel>
+                <h:panelGroup><br/></h:panelGroup>
+                <p:commandButton value="Volver" immediate="true" action="volver_prestamo" />
+                <p:commandButton value="Crear Prestamo" update="@form" actionListener="#{crearPrestamoAction.crearPrestamo}"/>
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

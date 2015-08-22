@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>..:: Valida Preguntas ::..</title>
+    </h:head>
+    <h:body>
+        <p:growl autoUpdate="true" sticky="false" life="5000" showDetail="true"/>
+        <h:form>
+            <p:panel header="Preguntas Clave">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Id Usuario:"/>
+                    <p:inputText value="#{preguntasClaveJSFB.idUSuario}" label="Id Usuario" required="true"
+                                 requiredMessage="Por favor ingrese el usuario.">
+                        <f:validator validatorId="validator.names"/>
+                    </p:inputText>
+                    <h:panelGroup/>
+                    <p:commandButton actionListener="#{preguntasClaveJSFB.buscarUsuario}" value="Buscar" update=":frmPregunta"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        <h:form id="frmPregunta">
+            <p:outputLabel value="#{not empty preguntasClaveJSFB.usuario}" />
+            <p:panel id="pnlRtaPr" header="Preguntas" rendered="#{not empty preguntasClaveJSFB.usuario}">
+                <h:panelGrid columns="1">
+                    <p:outputLabel for="txtPregunta1" value="Pregunta 1: #{preguntasClaveJSFB.usuario.pregunta1}"/>
+                    <p:inputText id="txtPregunta1" required="true" requiredMessage="Ingrese la respuesta a la pregunta 1" 
+                                 value="#{preguntasClaveJSFB.usuario.respuesta1}">
+                        <f:validator validatorId="validator.names"/>
+                    </p:inputText>
+                    
+                    <p:outputLabel for="txtPregunta2" value="Pregunta 2: #{preguntasClaveJSFB.usuario.pregunta1}"/>
+                    <p:inputText id="txtPregunta2" required="true" requiredMessage="Ingrese la respuesta a la pregunta 2" 
+                                 value="#{preguntasClaveJSFB.usuario.respuesta2}">
+                        <f:validator validatorId="validator.names"/>
+                    </p:inputText>
+                    
+                    <p:outputLabel for="txtPregunta3" value="Pregunta 3: #{preguntasClaveJSFB.usuario.pregunta1}"/>
+                    <p:inputText id="txtPregunta3" required="true" requiredMessage="Ingrese la respuesta a la pregunta 3" 
+                                 value="#{preguntasClaveJSFB.usuario.respuesta3}">
+                        <f:validator validatorId="validator.names"/>
+                    </p:inputText>
+                </h:panelGrid>
+                <p:commandButton action="#{preguntasClaveJSFB.validarPreguntas}" value="Validar" />
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

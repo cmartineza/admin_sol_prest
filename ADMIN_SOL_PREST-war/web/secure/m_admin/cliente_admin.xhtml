@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../templates/MainTemplate.xhtml">
+
+            <ui:define name="title">
+                ..:: Cliente Administracion ::..s
+            </ui:define>
+
+            <ui:define name="content">
+                <p:growl id="growl" autoUpdate="true" showDetail="true" life="5000"/>
+                <h:form id="formCreate">
+                    <p:panel id="panelCreate" header="Crear" toggleable="true">
+                        <h:panelGrid columns="4" cellpadding="15">
+                            <p:outputLabel for="selectTipoIdCrear" value="Tipo Identificación:"/>
+                            <p:selectOneMenu id="selectTipoIdCrear" binding="#{tipoIdCrear}" value="#{crearClienteAction.clientePK.tipoIdentificacion}">
+                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione una opcion.."/>
+                                <f:selectItems value="#{clienteJSFB.listTipoIdentificacion}" var="tipoId"
+                                               itemLabel="#{tipoId.descCorta}" itemValue="#{tipoId.tipoDocumentoId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="txtNumeroIdCrear" value="Número Identificación:"/>
+                            <p:inputText id="txtNumeroIdCrear" label="Número Identificación"
+                                         value="#{crearClienteAction.clientePK.numeroDocumento}">
+                                <f:attribute name="tpoDocId" value="#{tipoIdCrear}"/>
+                                <f:validator validatorId="validator.numeroIdentificacion"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="txtNombreCrear" value="Nombres: "/>
+                            <p:inputText id="txtNombreCrear" value="#{crearClienteAction.cliente.nombres}" label="Nombres">
+                                <f:validator validatorId="validator.names"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="txtApellidoCrear" value="Apellidos:"/>
+                            <p:inputText label="Apellidos" id="txtApellidoCrear" value="#{crearClienteAction.cliente.apellidos}">
+                                <f:validator validatorId="validator.names"/>
+                            </p:inputText>   
+
+                            <p:outputLabel for="txtFechaNacimientoCrear" value="Fecha Nacimiento: "/>
+                            <p:calendar id="txtFechaNacimientoCrear" navigator="true" yearRange="c-100:c+0" pattern="dd/MM/yyyy" mask="true" label="Fecha Nacimiento" value="#{crearClienteAction.cliente.fechaNacimiento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:calendar>
+
+                            <p:outputLabel for="txtFechaExpedicionCrear" value="Fecha Expedicion Documento:"/>
+                            <p:calendar id="txtFechaExpedicionCrear" navigator="true" yearRange="c-100:c+0" pattern="dd/MM/yyyy" mask="true" label="Fecha Expedicion Documento" value="#{crearClienteAction.cliente.fechaExpedicionDoc}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:calendar>
+
+                            <p:outputLabel for="txtEmpresaCrear" value="Empresa:"/>
+                            <p:inputText id="txtEmpresaCrear" label="Empresa" value="#{crearClienteAction.cliente.empresa}">
+                                <f:validator validatorId="validator.names" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtTelefonoCrear" value="Telefono:"/>
+                            <p:inputText id="txtTelefonoCrear" label="Telefono" value="#{crearClienteAction.cliente.telefono}">
+                                <f:validator validatorId="validator.names" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtCelularCrear" value="Celular:"/>
+                            <p:inputText id="txtCelularCrear" label="Celular" value="#{crearClienteAction.cliente.celular}">
+                                <f:validator validatorId="validator.names" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtCrearEmail" value="Email:"/>
+                            <p:inputText id="txtCrearEmail" label="Email" value="#{crearClienteAction.cliente.email}">
+                                <f:validator validatorId="validator.email" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtEpsCrear" value="EPS:"/>
+                            <p:selectOneMenu id="txtEpsCrear" style="width: 200px;" label="EPS" value="#{crearClienteAction.idEps}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listEps}"  
+                                               var="eps"
+                                               itemLabel="#{eps.descEps}"
+                                               itemValue="#{eps.epsId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="listTipoViviendaCrear" value="Tipo Vivienda:"/>
+                            <p:selectOneMenu id="listTipoViviendaCrear" label="Tipo Vivienda" value="#{crearClienteAction.idTipoVivienda}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listTipoVivienda}" 
+                                               var="tpoViviendaC"
+                                               itemLabel="#{tpoViviendaC.descripcionVivienda}"
+                                               itemValue="#{tpoViviendaC.tipoViviendaId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="listEstadoCivilCrear" value="Estado Civil:"/>
+                            <p:selectOneMenu id="listEstadoCivilCrear" label="Estado Civil" value="#{crearClienteAction.idEstadoCivil}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listEstadoCivil}"  
+                                               var="estadoCC"
+                                               itemLabel="#{estadoCC.descripcionEstado}"
+                                               itemValue="#{estadoCC.estadoCivilId}"/>
+                            </p:selectOneMenu> 
+
+                            <p:outputLabel for="listTenenciaViviendaCrear" value="Tenencia vivienda:"/>
+                            <p:selectOneMenu id="listTenenciaViviendaCrear" label="Tenencia vivienda" value="#{crearClienteAction.idTenenciaVivienda}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listTenenciaVivienda}"  
+                                               var="tenenciaC"
+                                               itemLabel="#{tenenciaC.descripcionTenencia}"
+                                               itemValue="#{tenenciaC.tenenciaViviendaId}"/>
+
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="listCiudadCrear" value="Ciudad Residencia:"/>
+                            <p:selectOneMenu id="listCiudadCrear" label="Ciudad Residencia" value="#{crearClienteAction.idCiudadResidencia}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listCiudad}"  
+                                               var="ciudadC"
+                                               itemLabel="#{ciudadC.nombreCiudad}"
+                                               itemValue="#{ciudadC.ciudadId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="txtDireccionCrear" value="Dirección Residencia:"/>
+                            <p:inputText id="txtDireccionCrear" label="Dirección Residencia" value="#{crearClienteAction.cliente.direccionResidencia}"/>
+                            
+                            <p:commandButton value="Crear Cliente" actionListener="#{crearClienteAction.crear}" 
+                                             update=":formTable:tblCliente" />
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+                <h:form id="formTable">
+                    <p:dataTable id="tblCliente" widgetVar="tblCliente" value="#{listarClienteAction.listCliente}" filteredValue="#{clienteJSFB.listClienteFiltro}" var="cliente"
+                                 paginator="true" emptyMessage="No se encontró ningun cliente" >
+
+                        <p:column filterBy="#{cliente.tipoIdentificacion1.descCorta}" headerText="Tipo Id." filterMatchMode="exact">
+                            <h:outputText value="#{cliente.tipoIdentificacion1.descCorta}" />
+                        </p:column>
+
+                        <p:column filterBy="#{cliente.clientePK.numeroDocumento}" headerText="Número Idenfticación" filterMatchMode="contains">
+                            <h:outputText value="#{cliente.clientePK.numeroDocumento}" />
+                        </p:column>
+
+                        <p:column filterBy="#{cliente.nombres}" headerText="Nombres" filterMatchMode="contains">
+                            <h:outputText value="#{cliente.nombres}" />
+                        </p:column>
+
+                        <p:column filterBy="#{cliente.apellidos}" headerText="Apellidos" filterMatchMode="exact">
+                            <h:outputText value="#{cliente.apellidos}" />
+                        </p:column>
+
+                        <p:column filterBy="#{cliente.celular}" headerText="Celular" filterMatchMode="exact">
+                            <h:outputText value="#{cliente.celular}" />
+                        </p:column>
+
+                        <p:column filterBy="#{cliente.email}" headerText="Email" filterMatchMode="exact">
+                            <h:outputText value="#{cliente.email}" />
+                        </p:column>
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton update=":formEdit" oncomplete="PF('dlgModCliente').show()" icon="ui-icon-pencil" title="Modificar">
+                                <f:setPropertyActionListener value="#{cliente}" target="#{modificarClienteAction.clienteJSFB.clienteTarget}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton action="#{eliminarClienteAction.eliminar(cliente)}" icon="ui-icon-trash" title="Eliminar">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="formEdit">
+                    <p:dialog header="Modificar" id="dlgModCliente" closable="true" showEffect="explode" hideEffect="explode"
+                              widgetVar="dlgModCliente" modal="true"  >
+                        <p:panelGrid rendered="#{not empty clienteJSFB.clienteTarget}" columns="4">
+                            <p:outputLabel for="selectTipoIdModi" value="Tipo Identificación:"/>
+                            <p:selectOneMenu id="selectTipoIdModi" required="true" requiredMessage="Por favor seleccione un tipo de identificación" 
+                                             value="#{modificarClienteAction.clienteJSFB.clienteTarget.clientePK.tipoIdentificacion}">
+                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione una opcion.."/>
+                                <f:selectItems value="#{clienteJSFB.listTipoIdentificacion}" var="tipoId"
+                                               itemLabel="#{tipoId.descCorta}" itemValue="#{tipoId.tipoDocumentoId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="txtNumeroIdModi" value="Número Identificación:"/>
+                            <p:inputText id="txtNumeroIdModi" label="Número Identificación" readonly="true"
+                                         required="true" requiredMessage="Por favor ingrese un número de identificación"
+                                         value="#{modificarClienteAction.clienteJSFB.clienteTarget.clientePK.numeroDocumento}">
+                            </p:inputText>
+
+                            <p:outputLabel for="txtNombreModi" value="Nombres: "/>
+                            <p:inputText id="txtNombreModi" value="#{modificarClienteAction.clienteJSFB.clienteTarget.nombres}" label="Nombres"
+                                         required="true" requiredMessage="Por favor ingrese los nombres">
+                                <f:validator validatorId="validator.names"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="txtApellidoModi" value="Apellidos:"/>
+                            <p:inputText label="Apellidos" id="txtApellidoModi" value="#{modificarClienteAction.clienteJSFB.clienteTarget.apellidos}"
+                                         required="true" requiredMessage="Por favor ingrese los apellidos">
+                                <f:validator validatorId="validator.names"/>
+                            </p:inputText>   
+
+                            <p:outputLabel for="txtFechaNacimientoModi" value="Fecha Nacimiento: "/>
+                            <p:calendar id="txtFechaNacimientoModi" navigator="true" readonly="true" yearRange="c-100:c+0" pattern="dd-MM-yyyy" mask="true" label="Fecha Nacimiento" value="#{modificarClienteAction.clienteJSFB.clienteTarget.fechaNacimiento}"/>
+
+                            <p:outputLabel for="txtFechaExpedicionModi" value="Fecha Expedicion Documento:"/>
+                            <p:calendar id="txtFechaExpedicionModi" navigator="true" readonly="true" yearRange="c-100:c+0" pattern="dd-MM-yyyy" mask="true" label="Fecha Expedicion Documento" value="#{modificarClienteAction.clienteJSFB.clienteTarget.fechaExpedicionDoc}"/>
+
+                            <p:outputLabel for="txtEmpresaModi" value="Empresa:"/>
+                            <p:inputText id="txtEmpresaModi" label="Empresa" value="#{modificarClienteAction.clienteJSFB.clienteTarget.empresa}">
+                                <f:validator validatorId="validator.names" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtTelefonoModi" value="Telefono:"/>
+                            <p:inputText id="txtTelefonoModi" label="Telefono" value="#{modificarClienteAction.clienteJSFB.clienteTarget.telefono}">
+                                <f:validator validatorId="validator.names" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtCelularModi" value="Celular:"/>
+                            <p:inputText id="txtCelularModi" label="Celular" value="#{modificarClienteAction.clienteJSFB.clienteTarget.celular}">
+                                <f:validator validatorId="validator.names" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtModiEmail" value="Email:"/>
+                            <p:inputText id="txtModiEmail" label="Email" value="#{modificarClienteAction.clienteJSFB.clienteTarget.email}">
+                                <f:validator validatorId="validator.email" />
+                            </p:inputText>
+
+                            <p:outputLabel for="txtEpsModi" value="EPS:"/>
+                            <p:selectOneMenu id="txtEpsModi" style="width: 200px;" label="EPS" value="#{modificarClienteAction.clienteJSFB.clienteTarget.eps.epsId}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listEps}"  
+                                               var="eps"
+                                               itemLabel="#{eps.descEps}"
+                                               itemValue="#{eps.epsId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="listTipoViviendaModi" value="Tipo Vivienda:"/>
+                            <p:selectOneMenu id="listTipoViviendaModi" label="Tipo Vivienda" value="#{modificarClienteAction.clienteJSFB.clienteTarget.tipoVivienda.tipoViviendaId}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listTipoVivienda}" 
+                                               var="tpoViviendaC"
+                                               itemLabel="#{tpoViviendaC.descripcionVivienda}"
+                                               itemValue="#{tpoViviendaC.tipoViviendaId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="listEstadoCivilModi" value="Estado Civil:"/>
+                            <p:selectOneMenu id="listEstadoCivilModi" label="Estado Civil" value="#{modificarClienteAction.clienteJSFB.clienteTarget.estadoCivil.estadoCivilId}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listEstadoCivil}"  
+                                               var="estadoCC"
+                                               itemLabel="#{estadoCC.descripcionEstado}"
+                                               itemValue="#{estadoCC.estadoCivilId}"/>
+                            </p:selectOneMenu> 
+
+                            <p:outputLabel for="listTenenciaViviendaModi" value="Tenencia vivienda:"/>
+                            <p:selectOneMenu id="listTenenciaViviendaModi" label="Tenencia vivienda" value="#{modificarClienteAction.clienteJSFB.clienteTarget.tenenciaVivienda.tenenciaViviendaId}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listTenenciaVivienda}"  
+                                               var="tenenciaC"
+                                               itemLabel="#{tenenciaC.descripcionTenencia}"
+                                               itemValue="#{tenenciaC.tenenciaViviendaId}"/>
+
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="listCiudadModi" value="Ciudad Residencia:"/>
+                            <p:selectOneMenu id="listCiudadModi" label="Ciudad Residencia" value="#{modificarClienteAction.clienteJSFB.clienteTarget.ciudadResidencia.ciudadId}">
+                                <f:selectItem itemLabel="Seleccione una opcion.." itemValue=""></f:selectItem>
+                                <f:selectItems value="#{clienteJSFB.listCiudad}"  
+                                               var="ciudadC"
+                                               itemLabel="#{ciudadC.nombreCiudad}"
+                                               itemValue="#{ciudadC.ciudadId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="txtDireccionModi" value="Dirección Residencia:"/>
+                            <p:inputText id="txtDireccionModi" label="Dirección Residencia" value="#{modificarClienteAction.clienteJSFB.clienteTarget.direccionResidencia}"/>
+                            
+                            <p:commandButton value="Modificar Cliente" actionListener="#{modificarClienteAction.modificar}" update=":formTable:tblCliente"
+                                             oncomplete="PF('dlgModCliente').hide()"/>
+                        </p:panelGrid>
+                    </p:dialog>   
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="login.xhtml" x="55" y="108" zoom="true"/>
+        <Node id="secure/m_admin/documento_administracion.xhtml" x="325" y="203" zoom="false"/>
+        <Node id="secure/m_credito/ingreso_prestamo.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="secure/m_admin/banco_administracion.xhtml" x="78" y="310" zoom="true"/>
+        <Node id="*" x="150" y="300" zoom="true"/>
+        <Node id="secure/m_admin/cliente_admin.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="secure/index.xhtml" x="67" y="229" zoom="true"/>
+        <Node id="templates/MainTemplate.xhtml" x="285" y="23" zoom="false"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

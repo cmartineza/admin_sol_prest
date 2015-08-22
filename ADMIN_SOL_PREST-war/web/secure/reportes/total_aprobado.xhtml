@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../templates/MainTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        ..::Reporte Total Aprobado::..
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="frmReporte">
+            <p:growl autoUpdate="true" life="5000" sticky="false" showDetail="true" showSummary="true"/>
+            <p:panel header="Reporte">
+                <h:panelGrid columns="5">
+                    <p:outputLabel value="Fecha Inicial:"/>
+                    <p:calendar id="txtFechaIni" navigator="true" yearRange="c-100:c+1" pattern="dd/MM/yyyy" mask="true" label="Fecha Nacimiento" value="#{listarTotalAprobadoAction.fechaInicial}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </p:calendar>
+                    
+                    <p:outputLabel value="Fecha Final:"/>
+                    <p:calendar id="txtFechaFin" navigator="true" yearRange="c-100:c+1" pattern="dd/MM/yyyy" mask="true" label="Fecha Nacimiento" value="#{listarTotalAprobadoAction.fechaFinal}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </p:calendar>
+                    <p:commandButton value="Consultar" icon="ui-icon-circle-check" actionListener="#{listarTotalAprobadoAction.listarResultado}" 
+                                     update="tblRegistros"/>
+                </h:panelGrid>
+            </p:panel>
+            <p:dataTable id="tblRegistros" widgetVar="tblRegistros" value="#{listarTotalAprobadoAction.listPrestamo}" var="reporte" emptyMessage="Sin registros....">
+                <p:column headerText="Tipo Identificación">
+                    <h:outputText value="#{reporte.cliente.tipoIdentificacion1.descCorta}"/>
+                </p:column>
+                <p:column headerText="Número Documento:">
+                    <h:outputText value="#{reporte.cliente.clientePK.numeroDocumento}" />
+                </p:column>
+                <p:column headerText="Id. Prestamo">
+                    <h:outputText value="#{reporte.prestamoId}"/>
+                </p:column>
+                <p:column headerText="Valor Aprobado">
+                    <h:outputText value="#{reporte.valorAprobado}"/>
+                </p:column>
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="3" style="text-align: right" footerText="Total:"/>
+                        <p:column footerText="#{listarTotalAprobadoAction.sumaTotal}" />
+                    </p:row>
+                </p:columnGroup>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

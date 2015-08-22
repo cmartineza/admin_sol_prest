@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      >
+
+    <body>
+
+        <ui:composition template="./../../templates/MainTemplate.xhtml">
+
+            <ui:define name="title">
+                ..:: Detalle Prestamo ::..
+            </ui:define>
+
+            <ui:define name="content">
+
+                <h:form id="formDetallePrestamo">
+                    <p:growl autoUpdate="true" showDetail="true" life="5000" sticky="false" /> 
+                    <p:panel id="panelDetalle" header="Detalle Prestamo">
+                        <f:facet name="actions">
+                            <p:commandButton value="Ir Proyeccion pago." styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+                                             icon="ui-icon-extlink" action="proyeccion_pago"/>
+                            <p:commandButton actionListener="#{modificarPrestamoAction.modificar}" value="Modificar" 
+                                             styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" icon="ui-icon-disk"/>
+                        </f:facet>
+                        <h:panelGrid columns="6" style="width: 100%;">
+                            <p:outputLabel value="Prestamo Id:"/>
+                            <p:outputLabel value="#{prestamoJSFB.prestamo.prestamoId}"/>
+
+                            <p:outputLabel value="Banco:"/>
+                            <p:outputLabel value="#{prestamoJSFB.prestamo.banco.nombreBanco}"/>
+
+                            <p:outputLabel value="Valor Solicitado:"/>
+                            <p:outputLabel value="#{prestamoJSFB.prestamo.valorSolicitado}"/>
+
+                            <p:outputLabel value="Fecha Radicación:" />
+                            <p:outputLabel value="#{prestamoJSFB.prestamo.fechaCreacion}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                            </p:outputLabel>
+
+                            <p:outputLabel value="Valor Aprobado:" />
+                            <p:inputText value="#{prestamoJSFB.prestamo.valorAprobado}" label="Valor Aprobado">
+                                <f:validator validatorId="validator.Digitos" />
+                            </p:inputText>
+
+                            <p:outputLabel value="Estado Prestamo:" />
+                            <p:selectOneMenu value="#{prestamoJSFB.prestamo.estadoPrestamo.estadoId}">
+                                <f:selectItems value="#{prestamoJSFB.listEstadoPrestamo}"
+                                               var="estado"
+                                               itemLabel="#{estado.descripcion}"
+                                               itemValue="#{estado.estadoId}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Fecha Aprobación:" />
+                            <p:calendar id="txtFechaAprobacion" navigator="true" yearRange="c-100:c+0" pattern="dd/MM/yyyy" 
+                                        mask="true" label="Fecha Aprobación" value="#{prestamoJSFB.prestamo.fechaRadicacion}">
+                            </p:calendar>
+
+                            <p:outputLabel for="txtPrPago" value="Proyección de Pago:"/>
+                            <p:selectOneRadio id="txtPrPago" value="#{prestamoJSFB.prestamo.proPago}">
+                                <f:selectItem itemLabel="Si" itemValue="S" />
+                                <f:selectItem itemLabel="No" itemValue="N" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel for="txtAlerta" value="Alerta:"/>
+                            <p:selectOneRadio id="txtAlerta" value="#{prestamoJSFB.prestamo.alerta}">
+                                <f:selectItem itemLabel="Si" itemValue="S" />
+                                <f:selectItem itemLabel="No" itemValue="N" />
+                            </p:selectOneRadio>
+                        </h:panelGrid>
+
+                    </p:panel>
+                </h:form>
+                <h:form>
+                    <p:dataTable value="#{prestamoJSFB.prestamo.referenciasClientesList}" var="referencias"
+                                 paginator="false"
+                                 emptyMessage="No se encontraron Referencias">
+                        <f:facet name="header">
+                            Referencias Clientes
+                        </f:facet>
+                        <p:column headerText="Apellidos">
+                            <h:outputText value="#{referencias.apellidos}"/>
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{referencias.nombres}"/>
+                        </p:column>
+                        <p:column headerText="Tipo Referencia">
+                            <h:outputText value="#{referencias.tipoReferencia.descTipoReferencia}"/>
+                        </p:column>
+                        <p:column headerText="Telefono Contacto">
+                            <h:outputText value="#{referencias.telefonoContacto}"/>
+                        </p:column>
+                        <p:column headerText="Direccion">
+                            <h:outputText value="#{referencias.direccion}"/>
+                        </p:column>
+                        <p:column headerText="Parenetesco">
+                            <h:outputText value="#{referencias.parentesco.descParentesco}"/>
+                        </p:column>
+
+                    </p:dataTable>   
+
+                    <p:dataTable value="#{prestamoJSFB.prestamo.documentoUsuarioList}" var="doc" 
+                                 paginator="false" id="tblDoc" widgetVar="tblDoc"
+                                 >
+                        <f:facet name="header">
+                            Documentos Cliente
+                        </f:facet>
+                        <p:column headerText="Nombre Documento" >
+                            <h:outputLabel value="#{doc.nombreDocumento}"/>
+                        </p:column>
+                        <p:column headerText="Tipo Documento">
+                            <h:outputLabel value="#{doc.tipoDocumento.descDocumento}"/>
+                        </p:column>
+                        <p:column headerText="Fecha Creación">
+                            <h:outputLabel value="#{doc.fechaCreacion}">
+                                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss"/>
+                            </h:outputLabel>
+                        </p:column>
+                        <p:column style="width:32px;text-align: center;">
+                            <p:commandButton icon=" ui-icon-arrowthickstop-1-s" title="Descargar" ajax="false">
+                                <p:fileDownload value="#{descarArchivoAction.getArchivo(doc)}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </ui:define> 
+
+        </ui:composition>
+
+    </body>
+</html>
